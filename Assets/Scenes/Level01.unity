@@ -936,8 +936,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 677d1c4a00055824b87095863c8a130c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  currentPizzasCollected: 0
 --- !u!4 &358683034
 Transform:
   m_ObjectHideFlags: 0
@@ -1115,6 +1113,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiManager: {fileID: 52567268}
   player: {fileID: 1101143755}
+  currentPizzasCollected: 0
 --- !u!4 &395654591
 Transform:
   m_ObjectHideFlags: 0

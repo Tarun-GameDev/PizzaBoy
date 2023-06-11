@@ -51,23 +51,23 @@ public class MathObstucle : MonoBehaviour
         {
             case "+":
                 {
-                    SceneManager.instance.player.AddBox(amount);
+                    LevelManager.instance.player.AddBox(amount);
                 }
                 break;
             case "-":
                 {
-                    SceneManager.instance.player.RemoveBox(amount);
+                    LevelManager.instance.player.RemoveBox(amount);
                 }
                 break;
             case "*":
                 {
-                    SceneManager.instance.player.AddBox(SceneManager.instance.currentPizzasCollected * amount);
+                    LevelManager.instance.player.AddBox(LevelManager.instance.currentPizzasCollected * amount);
                 }
                 break;
             case "/":
                 {
-                    int val = SceneManager.instance.currentPizzasCollected / amount;
-                    SceneManager.instance.player.RemoveBox(SceneManager.instance.currentPizzasCollected - val);
+                    int val = LevelManager.instance.currentPizzasCollected / amount;
+                    LevelManager.instance.player.RemoveBox(LevelManager.instance.currentPizzasCollected - val);
                 }
                 break;
         }

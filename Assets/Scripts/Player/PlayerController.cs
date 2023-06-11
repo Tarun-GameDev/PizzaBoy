@@ -144,7 +144,7 @@ public class PlayerController : MonoBehaviour
             }
 
 
-            if (Input.touchCount > 0 && !pizzasDelivered)
+            if (Input.touchCount > 0)
             {
                 Touch touch = Input.GetTouch(0);
 
@@ -317,7 +317,7 @@ public class PlayerController : MonoBehaviour
                 characterRig.weight = 0f;
         }
         
-        SceneManager.instance.currentPizzasCollected = pizzasCollected;
+        LevelManager.instance.currentPizzasCollected = pizzasCollected;
     }
 
     void SetBoxPos(GameObject _box)
@@ -331,7 +331,7 @@ public class PlayerController : MonoBehaviour
 
 
         pizzasCollected++;
-        SceneManager.instance.currentPizzasCollected = pizzasCollected;
+        LevelManager.instance.currentPizzasCollected = pizzasCollected;
     }
 
     public void EnbaleBoxPhysics(int _indexFrom)
@@ -347,7 +347,7 @@ public class PlayerController : MonoBehaviour
             pizzasCollected--;
         }
 
-        SceneManager.instance.currentPizzasCollected = pizzasCollected;
+        LevelManager.instance.currentPizzasCollected = pizzasCollected;
     }
 
     public void DeliverPizzas(int _amount)
@@ -378,7 +378,7 @@ public class PlayerController : MonoBehaviour
                 characterRig.weight = 0f;
         }
 
-        SceneManager.instance.currentPizzasCollected = pizzasCollected;
+        LevelManager.instance.currentPizzasCollected = pizzasCollected;
 
         pizzasDelivered = true;
     }

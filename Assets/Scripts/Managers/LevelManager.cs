@@ -2,10 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SceneManager : MonoBehaviour
+public class LevelManager : MonoBehaviour
 {
-    public static SceneManager instance;
+    public static LevelManager instance;
+
+    public UIManager uiManager;
+
     public PlayerController player;
+
     public int currentPizzasCollected = 0;
 
     private void Awake()
@@ -13,12 +17,12 @@ public class SceneManager : MonoBehaviour
         if (instance == null)
             instance = this;
         else
-            Destroy(gameObject);
+            Destroy(this.gameObject);
     }
 
     private void Start()
     {
-        if(player == null)
+        if (player == null)
             player = FindObjectOfType<PlayerController>();
     }
 }

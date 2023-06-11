@@ -17,7 +17,7 @@ public class Obstucle : MonoBehaviour
 
         if (gameobj.CompareTag("CollectedBox"))
         {
-            SceneManager.instance.player.EnbaleBoxPhysics(height);
+            LevelManager.instance.player.EnbaleBoxPhysics(height);
             collided = true;
         }
     }

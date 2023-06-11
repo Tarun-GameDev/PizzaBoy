@@ -16,7 +16,7 @@ public class UIManager : MonoBehaviour
     {
         coinsCollected = PlayerPrefs.GetInt("coins", 0);
         coinsText.text = "Coins " + coinsCollected.ToString("00");
-        //levelNoText.text = "Level " + SceneManager.GetActiveScene().buildIndex.ToString();
+        levelNoText.text = "Level " + SceneManager.GetActiveScene().buildIndex.ToString();
     }
 
     public void DeadMenu()
@@ -26,7 +26,7 @@ public class UIManager : MonoBehaviour
 
     public void RestartButton()
     {
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void LevelComplete()
@@ -37,7 +37,7 @@ public class UIManager : MonoBehaviour
 
     public void NextLevel()
     {
-        
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     public void AddCoin(int _coins)
