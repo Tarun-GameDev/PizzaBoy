@@ -9,6 +9,7 @@ public class PizzaBox : MonoBehaviour
     GameObject pizzaPosTrigger;
     [SerializeField] float moveSpeed = 30f;
     [SerializeField] bool canMove = false;
+    public bool delivered = false;
 
     private void Start()
     {
@@ -28,15 +29,16 @@ public class PizzaBox : MonoBehaviour
 
     private void Update()
     {
-        if (!canMove)
+        if (!canMove || delivered)
             return;
 
         if(pizzaPosTrigger != null)
         {
             transform.LookAt(pizzaPosTrigger.transform);
             transform.position += transform.forward * moveSpeed * Time.deltaTime;
+
+            transform.Rotate(new Vector3(0f, transform.rotation.y, 0f));
         }
 
     }
-
 }

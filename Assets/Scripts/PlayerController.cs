@@ -15,27 +15,53 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Animator animator;
     [SerializeField] float xPos = -2f;
     [SerializeField] float sideMoveSpeed = 1f;
-    [SerializeField] bool right = true;
+    bool right = false;
     [SerializeField] GameObject pizzaBoxPrefab;
     [SerializeField] List<GameObject> pizzaBoxeArray = new List<GameObject>();
-    [SerializeField] bool inHouseRange = false;
 
+    Collider DelivaryHouseObj;
+    bool inHouseRange = false;
 
-
-    public Vector2 startTouchPos;
-    public Vector2 currentTouchPos;
-    public Vector2 endTouchPos;
+    Vector2 startTouchPos;
+    Vector2 currentTouchPos;
     public bool stopTouch = false;
+    float requiredHoldDuration = .2f;
+    float currentHoldDuration = 0.0f;
 
-    public float swipeRange;
+    float swipeRange = 50f;
+    Vector2 touchDistance;
 
     public float xScrennPos;
-    [SerializeField] GameObject delivaryPizzaPos;
+    GameObject leftDelivaryPos;
+    GameObject rightDelivaryPos;
+    GameObject delivaryPizzaPos;
+
+
+    [SerializeField] LineRenderer rightLineRenderer;
+    [SerializeField] LineRenderer leftLineRenderer;
+    Transform startPoint;
+    Vector3 startPointOffset;
+    Transform rightendPoint;
+    Vector3 rightendPointOffset = new Vector3(.8f,0f,.2f);
+    Transform leftendPoint;
+    Vector3 leftendPointOffset;
+    Vector3 controlPoint;
+    int bezierCurveResolution = 10;
+
+    public bool levelCompleted = false;
+    bool bonusPointsCompleted = false;
+    public bool pizzasDelivered = false;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         col = GetComponent<Collider>();
+
+        rightLineRenderer.positionCount = bezierCurveResolution;
+        leftLineRenderer.positionCount = bezierCurveResolution;
+        rightLineRenderer.enabled = false;
+        leftLineRenderer.enabled = false;
+
         if(characterRig != null)
             characterRig.weight = 0f;        
 
@@ -43,66 +69,173 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (bonusPointsCompleted)
+            return;
 
-        #region androidControllers
-        movement = Input.GetAxis("Horizontal");
-
-        if (movement > .1f && !right)
+        if(!levelCompleted)
         {
-            xPos = 2f;
-            animator.Play("MoveSide-R");
-            right = true;
-        }
-        else if (movement < -.1f && right)
-        {
-            xPos = -2f;
-            animator.Play("MoveSide-L");
-            right = false;
-        }
-        #endregion
+            #region androidControllers
+            movement = Input.GetAxis("Horizontal");
 
-
-
-
-        #region MObileCOmtrollers
-
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
-        {
-            startTouchPos = Input.GetTouch(0).position;
-        }
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved)
-        {
-            currentTouchPos = Input.GetTouch(0).position;
-            Vector2 Distance = currentTouchPos - startTouchPos;
-            xScrennPos = Distance.x;
-            if (!stopTouch)
+            if (movement > .1f && !right)
             {
-                if (!right &&  Distance.x > swipeRange)
+                xPos = 2f;
+                animator.Play("MoveSide-R");
+                right = true;
+            }
+            else if (movement < -.1f && right)
+            {
+                xPos = -2f;
+                animator.Play("MoveSide-L");
+                right = false;
+            }
+
+            if(!pizzasDelivered)
+            {
+                if (inHouseRange && Input.GetKeyDown(KeyCode.L))
                 {
-                    xPos = 2f;
-                    animator.Play("MoveSide-R");
-                    stopTouch = true;
-                    right = true;
+                    delivaryPizzaPos = rightDelivaryPos;
+                    DeliverPizzas(4);
                 }
-                else if (right && Distance.x < -swipeRange)
+                else if (inHouseRange && Input.GetKeyDown(KeyCode.K))
                 {
-                    xPos = -2f;
-                    animator.Play("MoveSide-L");
-                    stopTouch = true;
-                    right = false;
+                    delivaryPizzaPos = leftDelivaryPos;
+                    DeliverPizzas(4);
                 }
             }
-        }
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
-        {
-            stopTouch = false;
-        }
+
             #endregion
 
 
-            rb.position = Vector3.Lerp(rb.position, new Vector3(xPos, rb.position.y, rb.position.z), Time.deltaTime * sideMoveSpeed);
 
+            #region MObileCOmtrollers
+
+            if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+            {
+                startTouchPos = Input.GetTouch(0).position;
+            }
+            if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved)
+            {
+                currentTouchPos = Input.GetTouch(0).position;
+                touchDistance = currentTouchPos - startTouchPos;
+                xScrennPos = touchDistance.x;
+                if (!stopTouch)
+                {
+                    if (!right && touchDistance.x > swipeRange)
+                    {
+                        xPos = 2f;
+                        animator.Play("MoveSide-R");
+                        stopTouch = true;
+                        right = true;
+                    }
+                    else if (right && touchDistance.x < -swipeRange)
+                    {
+                        xPos = -2f;
+                        animator.Play("MoveSide-L");
+                        stopTouch = true;
+                        right = false;
+                    }
+                }
+
+            }
+            if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
+            {
+                stopTouch = false;
+            }
+
+
+            if (Input.touchCount > 0 && !pizzasDelivered)
+            {
+                Touch touch = Input.GetTouch(0);
+
+                switch (touch.phase)
+                {
+                    case TouchPhase.Began:
+                        currentHoldDuration = 0.0f;
+                        break;
+                    case TouchPhase.Stationary:
+                    case TouchPhase.Moved:
+                        if (inHouseRange)
+                        {
+                            currentHoldDuration += Time.deltaTime;
+                            if (currentHoldDuration >= requiredHoldDuration)
+                            {
+
+                                //right Line Renderer
+                                rightLineRenderer.enabled = true;
+                                controlPoint = Vector3.Lerp(startPoint.position, rightendPoint.position, .5f) + new Vector3(-3f, 3f, 0f);
+
+                                Vector3[] _rightpositions = BezierCurvePositions(startPoint.position + startPointOffset, rightendPoint.position + rightendPointOffset, controlPoint);
+                                rightLineRenderer.SetPositions(_rightpositions);
+
+
+                                //left Line Renderer
+                                leftLineRenderer.enabled = true;
+                                controlPoint = Vector3.Lerp(startPoint.position, leftendPoint.position, .5f) + new Vector3(3f, 3f, 0f);
+
+                                Vector3[] _leftpositions = BezierCurvePositions(startPoint.position + startPointOffset, leftendPoint.position + leftendPointOffset, controlPoint);
+                                leftLineRenderer.SetPositions(_leftpositions);
+
+                            }
+                        }
+                        break;
+                    case TouchPhase.Ended:
+                        if (inHouseRange)
+                        {
+                            rightLineRenderer.enabled = false;
+                            leftLineRenderer.enabled = false;
+                            if (touchDistance.x > 100f)
+                            {
+                                delivaryPizzaPos = rightDelivaryPos;
+                                DeliverPizzas(4);
+                            }
+                            else if (touchDistance.x < -100f)
+                            {
+                                delivaryPizzaPos = leftDelivaryPos;
+                                DeliverPizzas(5);
+                            }
+                        }
+                        break;
+                    case TouchPhase.Canceled:
+                        currentHoldDuration = 0.0f;
+                        if (inHouseRange)
+                        {
+                            rightLineRenderer.enabled = false;
+                            leftLineRenderer.enabled = false;
+                        }
+                        break;
+                }
+            }
+
+            #endregion
+
+        }
+
+
+        rb.position = Vector3.Lerp(rb.position, new Vector3(xPos, rb.position.y, rb.position.z), Time.deltaTime * sideMoveSpeed);
        
+    }
+
+    Vector3[] BezierCurvePositions(Vector3 startPos,Vector3 endPos,Vector3 controlPoint)
+    {
+        bezierCurveResolution = 10;
+        Vector3[] _positions = new Vector3[bezierCurveResolution];
+
+        for (int i = 0; i < bezierCurveResolution; i++)
+        {
+            float t = i / (float)(bezierCurveResolution-1);
+            float u = 1 - t;
+            float tt = t * t;
+            float uu = u * u;
+            float uuu = uu * u;
+            float ttt = tt * t;
+
+            Vector3 _position = uuu * startPos + 3 * uu * t * controlPoint + 3 * u * tt * controlPoint + ttt * endPos;
+
+            _positions[i] = _position;
+        }
+
+        return _positions;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -114,35 +247,39 @@ public class PlayerController : MonoBehaviour
             SetBoxPos(other.gameObject);
         }
 
-        /*
+
         if (other.CompareTag("HouseRange"))
         {
+            rightDelivaryPos = other.GetComponent<PizzaDelivary>().rightPizzaDelivary;
+            leftDelivaryPos = other.GetComponent<PizzaDelivary>().leftPizzaDelivary;
+
+            startPoint = this.transform;
+            rightendPoint = rightDelivaryPos.transform;
+            leftendPoint = leftDelivaryPos.transform;
+
             inHouseRange = true;
         }
-        else
-            inHouseRange = false;*/
+
 
     }
 
-
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerExit(Collider other)
     {
-
-        if(other.CompareTag("HouseRange"))
+        if (other.CompareTag("HouseRange"))
         {
-            if (Input.GetKeyDown(KeyCode.L))
-            {
-                Debug.Log("FFe");
-                delivaryPizzaPos = other.GetComponent<PizzaDelivary>().leftPizzaDelivary;
-                DeliverPizzas(1);
-                
-            }
+            inHouseRange = false;
+            DelivaryHouseObj = null;
+            rightLineRenderer.enabled = false;
+            leftLineRenderer.enabled = false;
         }
     }
 
 
     void FixedUpdate()
     {
+        if (bonusPointsCompleted)
+            return;
+
         rb.velocity = new Vector3(0f, rb.position.y, moveSpeed * Time.fixedDeltaTime);
     }
 
@@ -185,7 +322,6 @@ public class PlayerController : MonoBehaviour
 
     void SetBoxPos(GameObject _box)
     {
-
         _box.tag = "CollectedBox";
         _box.transform.SetParent(pizzaBoxPivot);
         _box.transform.localPosition = new Vector3(0f, pizzasCollected * .2f, 0f);
@@ -216,14 +352,56 @@ public class PlayerController : MonoBehaviour
 
     public void DeliverPizzas(int _amount)
     {
-        for (int i = pizzasCollected - 1; i >= _amount; i--)
+        
+        int _pizzas = pizzasCollected - _amount;
+
+        for (int i = pizzasCollected - 1; i >= _pizzas; i--)
         {
-            GameObject _box = pizzaBoxeArray[i];
-            _box.GetComponent<PizzaBox>().moveTowardsPos(delivaryPizzaPos); 
-            pizzaBoxeArray.RemoveAt(i);
-            pizzasCollected--;
+            if (pizzasCollected >= 1)
+            {
+                GameObject _box = pizzaBoxeArray[i];
+                _box.transform.parent = null;
+                _box.GetComponent<PizzaBox>().moveTowardsPos(delivaryPizzaPos);
+                pizzaBoxeArray.RemoveAt(i);
+                pizzasCollected--;
+            }
+            else
+            {
+                Debug.Log("Out of Pizzas");
+            }
+
+        }
+
+        if (pizzasCollected == 0)
+        {
+            if (characterRig != null)
+                characterRig.weight = 0f;
         }
 
         SceneManager.instance.currentPizzasCollected = pizzasCollected;
+
+        pizzasDelivered = true;
+    }
+
+    public void LevelCompleted()
+    {
+        levelCompleted = true;
+        if(pizzasCollected == 0)
+        {
+            BonusPointCompleted();
+        }
+    }
+
+    public void BonusPointCompleted()
+    {
+        bonusPointsCompleted = true;
+        rb.velocity = Vector3.zero;
+        int _rand = Random.Range(0, 2);
+        animator.SetTrigger("levelCompleted0" + _rand);
+
+        LevelManager.instance.uiManager.LevelComplete();
+
+        //play animation
+        //stop move
     }
 }
