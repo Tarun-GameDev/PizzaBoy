@@ -28,6 +28,8 @@ public class PlayerController : MonoBehaviour
     float requiredHoldDuration = .2f;
     float currentHoldDuration = 0.0f;
 
+    [SerializeField] float sensitivity = 10f;
+
     float swipeRange = 50f;
     Vector2 touchDistance;
 
@@ -75,6 +77,7 @@ public class PlayerController : MonoBehaviour
         if(!levelCompleted)
         {
             #region androidControllers
+            /*
             movement = Input.GetAxis("Horizontal");
 
             if (movement > .1f && !right)
@@ -88,24 +91,9 @@ public class PlayerController : MonoBehaviour
                 xPos = -2f;
                 animator.Play("MoveSide-L");
                 right = false;
-            }
-
-            if(!pizzasDelivered)
-            {
-                if (inHouseRange && Input.GetKeyDown(KeyCode.L))
-                {
-                    delivaryPizzaPos = rightDelivaryPos;
-                    DeliverPizzas(4);
-                }
-                else if (inHouseRange && Input.GetKeyDown(KeyCode.K))
-                {
-                    delivaryPizzaPos = leftDelivaryPos;
-                    DeliverPizzas(4);
-                }
-            }
+            }*/
 
             #endregion
-
 
 
             #region MObileCOmtrollers
@@ -119,6 +107,8 @@ public class PlayerController : MonoBehaviour
                 currentTouchPos = Input.GetTouch(0).position;
                 touchDistance = currentTouchPos - startTouchPos;
                 xScrennPos = touchDistance.x;
+
+                /*
                 if (!stopTouch)
                 {
                     if (!right && touchDistance.x > swipeRange)
@@ -135,15 +125,17 @@ public class PlayerController : MonoBehaviour
                         stopTouch = true;
                         right = false;
                     }
-                }
+                }*/
 
             }
             if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
             {
                 stopTouch = false;
+                xScrennPos = 0f;
             }
 
 
+            /*
             if (Input.touchCount > 0)
             {
                 Touch touch = Input.GetTouch(0);
@@ -205,14 +197,17 @@ public class PlayerController : MonoBehaviour
                         }
                         break;
                 }
-            }
+            }*/
 
             #endregion
 
         }
 
 
-        rb.position = Vector3.Lerp(rb.position, new Vector3(xPos, rb.position.y, rb.position.z), Time.deltaTime * sideMoveSpeed);
+        //rb.position = Vector3.Lerp(rb.position, new Vector3(xPos, rb.position.y, rb.position.z), Time.deltaTime * sideMoveSpeed);
+        rb.position += new Vector3(xScrennPos * sensitivity * Time.deltaTime, 0f, 0f);
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, -3.6f, 3.6f), transform.position.y, transform.position.z);
+        
        
     }
 
@@ -240,23 +235,26 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("PizzaBox"))
+        Collider col = other;
+
+        if(col.CompareTag("PizzaBox"))
         {
             if (characterRig != null)
                 characterRig.weight = 1f;
-            SetBoxPos(other.gameObject);
+            SetBoxPos(col.gameObject);
         }
 
 
-        if (other.CompareTag("HouseRange"))
+        if (col.CompareTag("HouseRange"))
         {
-            rightDelivaryPos = other.GetComponent<PizzaDelivary>().rightPizzaDelivary;
-            leftDelivaryPos = other.GetComponent<PizzaDelivary>().leftPizzaDelivary;
-
+            delivaryPizzaPos = col.GetComponent<PizzaDelivary>().delivaryPos;
+            DeliverPizzas(col.GetComponent<PizzaDelivary>().noOfPizzas);
+            pizzasDelivered = true;
+            /*
             startPoint = this.transform;
             rightendPoint = rightDelivaryPos.transform;
             leftendPoint = leftDelivaryPos.transform;
-
+            */
             inHouseRange = true;
         }
 
@@ -269,8 +267,10 @@ public class PlayerController : MonoBehaviour
         {
             inHouseRange = false;
             DelivaryHouseObj = null;
+            pizzasDelivered = false;
+            /*
             rightLineRenderer.enabled = false;
-            leftLineRenderer.enabled = false;
+            leftLineRenderer.enabled = false;*/
         }
     }
 
@@ -380,7 +380,6 @@ public class PlayerController : MonoBehaviour
 
         LevelManager.instance.currentPizzasCollected = pizzasCollected;
 
-        pizzasDelivered = true;
     }
 
     public void LevelCompleted()

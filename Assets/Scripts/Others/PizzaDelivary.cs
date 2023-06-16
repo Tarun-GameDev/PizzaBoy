@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class PizzaDelivary : MonoBehaviour
 {
-    public GameObject rightPizzaDelivary;
-    public GameObject leftPizzaDelivary;
+    public int noOfPizzas = 1;
+    public GameObject delivaryPos;
 }

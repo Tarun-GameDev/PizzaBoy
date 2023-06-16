@@ -16,27 +16,27 @@ public class MathObstucle : MonoBehaviour
         {
             case "+":
                 {
-                    mathName = "Add";
+                    mathName = "+";
                 }
                 break;
             case "-":
                 {
-                    mathName = "Subtract";
+                    mathName = "-";
                 }
                 break;
             case "*":
                 {
-                    mathName = "Multiply";
+                    mathName = "x";
                 }
                 break;
             case "/":
                 {
-                    mathName = "Divide";
+                    mathName = "%";
                 }
                 break;
         }
 
-        mathText.text = mathName + " by " + amount.ToString();
+        mathText.text = mathName + amount.ToString();
     }
 
     private void OnTriggerEnter(Collider other)
