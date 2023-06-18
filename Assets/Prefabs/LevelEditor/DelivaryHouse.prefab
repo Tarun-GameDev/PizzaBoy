@@ -112,8 +112,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 4, y: 4, z: 5}
-  m_Center: {x: -2, y: 0, z: 2}
+  m_Size: {x: 4, y: 4, z: 3.5}
+  m_Center: {x: -2, y: 0, z: -1}
 --- !u!1 &4026965101866725864
 GameObject:
   m_ObjectHideFlags: 0
@@ -228,6 +228,10 @@ MonoBehaviour:
   boy: 0
   characterRig: {fileID: 0}
   collected: 0
+  emojiesImage: {fileID: 0}
+  angrySprite: {fileID: 0}
+  happySprite: {fileID: 0}
+  emojiesAnimator: {fileID: 0}
 --- !u!1001 &7557470830474005587
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -8,15 +8,35 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] GameObject playingMenu;
     [SerializeField] GameObject levelCompleteMenu;
+    [SerializeField] GameObject pauseMenu;
     [SerializeField] TextMeshProUGUI levelNoText;
-    [SerializeField] TextMeshProUGUI coinsText;
-    [SerializeField] int coinsCollected;
+    [SerializeField] TextMeshProUGUI gemsText;
+    [SerializeField] int gemsCollected;
+    public static bool GameIsPaused = false;
 
     private void Start()
     {
-        coinsCollected = PlayerPrefs.GetInt("coins", 0);
-        coinsText.text = "Coins " + coinsCollected.ToString("00");
+        gemsCollected = PlayerPrefs.GetInt("Gems", 0);
+        gemsText.text = "Coins " + gemsCollected.ToString("00");
         levelNoText.text = "Level " + SceneManager.GetActiveScene().buildIndex.ToString();
+    }
+
+    public void Resume()
+    {
+        playingMenu.SetActive(true);
+        pauseMenu.SetActive(false);
+        Time.timeScale = 1f;
+        GameIsPaused = false;
+        //audioManager.Play("Button");
+    }
+
+    public void Pause()
+    {
+        playingMenu.SetActive(false);
+        pauseMenu.SetActive(true);
+        Time.timeScale = 0f;
+        GameIsPaused = true;
+        //audioManager.Play("Button");
     }
 
     public void DeadMenu()
@@ -42,9 +62,9 @@ public class UIManager : MonoBehaviour
 
     public void AddCoin(int _coins)
     {
-        coinsCollected += _coins;
-        coinsText.text = "Coins " + coinsCollected.ToString("00");
-        PlayerPrefs.SetInt("coins", coinsCollected);
+        gemsCollected += _coins;
+        gemsText.text = "Gems " + gemsCollected.ToString("00");
+        PlayerPrefs.SetInt("Gems", gemsCollected);
     }
      
 }

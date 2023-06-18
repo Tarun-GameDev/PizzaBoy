@@ -42,7 +42,10 @@ public class MathObstucle : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
+        {
             MathsPizza();
+            CinemachineShake.instance.CameraShake(3f, .4f);
+        }
     }
 
     void MathsPizza()

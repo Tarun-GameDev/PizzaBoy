@@ -137,7 +137,7 @@ TextureImporter:
         width: 249
         height: 467
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -158,7 +158,7 @@ TextureImporter:
         width: 180
         height: 175
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -171,13 +171,97 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: IconsPNG_4
+      name: IconsPNG_0
       rect:
         serializedVersion: 2
-        x: 307
-        y: 960
-        width: 5
-        height: 5
+        x: 344
+        y: 996
+        width: 4
+        height: 4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1b6ededac6339364a8b643386f02e42a
+      internalID: 1222311498
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hungry
+      rect:
+        serializedVersion: 2
+        x: 526
+        y: 805
+        width: 160
+        height: 178
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: daf0cb7e53d66b44b856556bfd148b66
+      internalID: 206243396
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Angry
+      rect:
+        serializedVersion: 2
+        x: 714
+        y: 807
+        width: 162
+        height: 178
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e75d411b3b5532a40afcd913aff27962
+      internalID: 735330887
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Happy
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 611
+        width: 161
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8996dbac127e5e34094e793178125996
+      internalID: -574732330
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PauseIcon
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 308
+        width: 173
+        height: 174
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -185,8 +269,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3872ef89b58acfe4bb13f94aa0c934ca
-      internalID: -1606081023
+      spriteID: 9ebeeb674b72e414eb625db2b859233e
+      internalID: 906707004
       vertices: []
       indices: 
       edges: []
@@ -202,14 +286,21 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      Angry: 735330887
       Border: -1993128691
+      Happy: -574732330
+      Hungry: -295920341
       IconsPNG_0: 1222311498
-      IconsPNG_2: -295920341
+      IconsPNG_10: 659060204
+      IconsPNG_12: -412812840
+      IconsPNG_13: 699550483
       IconsPNG_4: -1606081023
       IconsPNG_5: 1936537928
       IconsPNG_6: 1046832007
       IconsPNG_7: 756288100
       IconsPNG_8: 1514337178
+      IconsPNG_9: 658779817
+      PauseIcon: -525792132
       PlayButton: -2114690726
   spritePackingTag: 
   pSDRemoveMatte: 0

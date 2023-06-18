@@ -8,6 +8,6 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        coins = PlayerPrefs.GetInt("coins", 0);
+        coins = PlayerPrefs.GetInt("Gems", 0);
     }
 }

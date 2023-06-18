@@ -53,6 +53,7 @@ public class PlayerController : MonoBehaviour
     public bool levelCompleted = false;
     bool bonusPointsCompleted = false;
     public bool pizzasDelivered = false;
+    bool move = false;
 
     void Start()
     {
@@ -101,6 +102,8 @@ public class PlayerController : MonoBehaviour
             if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
             {
                 startTouchPos = Input.GetTouch(0).position;
+                move = true;
+                animator.SetBool("move", move);
             }
             if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved)
             {
@@ -132,10 +135,14 @@ public class PlayerController : MonoBehaviour
             {
                 stopTouch = false;
                 xScrennPos = 0f;
+                move = false;
+                animator.SetBool("move", move);
             }
 
 
-            /*
+
+            #region Archieve
+    /*
             if (Input.touchCount > 0)
             {
                 Touch touch = Input.GetTouch(0);
@@ -198,6 +205,8 @@ public class PlayerController : MonoBehaviour
                         break;
                 }
             }*/
+            #endregion
+        
 
             #endregion
 
@@ -206,7 +215,7 @@ public class PlayerController : MonoBehaviour
 
         //rb.position = Vector3.Lerp(rb.position, new Vector3(xPos, rb.position.y, rb.position.z), Time.deltaTime * sideMoveSpeed);
         rb.position += new Vector3(xScrennPos * sensitivity * Time.deltaTime, 0f, 0f);
-        transform.position = new Vector3(Mathf.Clamp(transform.position.x, -3.6f, 3.6f), transform.position.y, transform.position.z);
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, -3.4f, 3.4f), transform.position.y, transform.position.z);
         
        
     }
@@ -232,6 +241,15 @@ public class PlayerController : MonoBehaviour
 
         return _positions;
     }
+    void FixedUpdate()
+    {
+        if (bonusPointsCompleted)
+            return;
+
+
+        if(move)
+            rb.velocity = new Vector3(0f, rb.position.y, moveSpeed * Time.fixedDeltaTime);
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -241,7 +259,7 @@ public class PlayerController : MonoBehaviour
         {
             if (characterRig != null)
                 characterRig.weight = 1f;
-            SetBoxPos(col.gameObject);
+            SetBoxPos(col.gameObject);  
         }
 
 
@@ -256,6 +274,14 @@ public class PlayerController : MonoBehaviour
             leftendPoint = leftDelivaryPos.transform;
             */
             inHouseRange = true;
+        }
+
+        if(col.CompareTag("ObstucleBarrier"))
+        {
+            CinemachineShake.instance.CameraShake(10f, .2f);
+            rb.AddForce(Vector3.right * 500f,ForceMode.Impulse);
+            EnbaleBoxPhysics(pizzasCollected - 1);
+
         }
 
 
@@ -275,13 +301,7 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    void FixedUpdate()
-    {
-        if (bonusPointsCompleted)
-            return;
 
-        rb.velocity = new Vector3(0f, rb.position.y, moveSpeed * Time.fixedDeltaTime);
-    }
 
     public void AddBox(int _noOfBoxes)
     {
@@ -336,6 +356,9 @@ public class PlayerController : MonoBehaviour
 
     public void EnbaleBoxPhysics(int _indexFrom)
     {
+        if (pizzasCollected <= 0)
+            return;
+
         for (int i = pizzasCollected-1; i >= _indexFrom; i--)
         {
             GameObject _box = pizzaBoxeArray[i];
@@ -348,6 +371,12 @@ public class PlayerController : MonoBehaviour
         }
 
         LevelManager.instance.currentPizzasCollected = pizzasCollected;
+
+        if (pizzasCollected == 0)
+        {
+            if (characterRig != null)
+                characterRig.weight = 0f;
+        }
     }
 
     public void DeliverPizzas(int _amount)
