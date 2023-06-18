@@ -75,145 +75,102 @@ public class PlayerController : MonoBehaviour
         if (bonusPointsCompleted)
             return;
 
-        if(!levelCompleted)
+
+
+        #region MObileCOmtrollers
+
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
-            #region androidControllers
-            /*
-            movement = Input.GetAxis("Horizontal");
+            startTouchPos = Input.GetTouch(0).position;
+            move = true;
+            animator.SetBool("move", move);
+        }
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved)
+        {
+            currentTouchPos = Input.GetTouch(0).position;
+            touchDistance = currentTouchPos - startTouchPos;
+            xScrennPos = touchDistance.x;
 
-            if (movement > .1f && !right)
-            {
-                xPos = 2f;
-                animator.Play("MoveSide-R");
-                right = true;
-            }
-            else if (movement < -.1f && right)
-            {
-                xPos = -2f;
-                animator.Play("MoveSide-L");
-                right = false;
-            }*/
-
-            #endregion
-
-
-            #region MObileCOmtrollers
-
-            if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
-            {
-                startTouchPos = Input.GetTouch(0).position;
-                move = true;
-                animator.SetBool("move", move);
-            }
-            if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved)
-            {
-                currentTouchPos = Input.GetTouch(0).position;
-                touchDistance = currentTouchPos - startTouchPos;
-                xScrennPos = touchDistance.x;
-
-                /*
-                if (!stopTouch)
-                {
-                    if (!right && touchDistance.x > swipeRange)
-                    {
-                        xPos = 2f;
-                        animator.Play("MoveSide-R");
-                        stopTouch = true;
-                        right = true;
-                    }
-                    else if (right && touchDistance.x < -swipeRange)
-                    {
-                        xPos = -2f;
-                        animator.Play("MoveSide-L");
-                        stopTouch = true;
-                        right = false;
-                    }
-                }*/
-
-            }
-            if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
-            {
-                stopTouch = false;
-                xScrennPos = 0f;
-                move = false;
-                animator.SetBool("move", move);
-            }
-
-
-
-            #region Archieve
-    /*
-            if (Input.touchCount > 0)
-            {
-                Touch touch = Input.GetTouch(0);
-
-                switch (touch.phase)
-                {
-                    case TouchPhase.Began:
-                        currentHoldDuration = 0.0f;
-                        break;
-                    case TouchPhase.Stationary:
-                    case TouchPhase.Moved:
-                        if (inHouseRange)
-                        {
-                            currentHoldDuration += Time.deltaTime;
-                            if (currentHoldDuration >= requiredHoldDuration)
-                            {
-
-                                //right Line Renderer
-                                rightLineRenderer.enabled = true;
-                                controlPoint = Vector3.Lerp(startPoint.position, rightendPoint.position, .5f) + new Vector3(-3f, 3f, 0f);
-
-                                Vector3[] _rightpositions = BezierCurvePositions(startPoint.position + startPointOffset, rightendPoint.position + rightendPointOffset, controlPoint);
-                                rightLineRenderer.SetPositions(_rightpositions);
-
-
-                                //left Line Renderer
-                                leftLineRenderer.enabled = true;
-                                controlPoint = Vector3.Lerp(startPoint.position, leftendPoint.position, .5f) + new Vector3(3f, 3f, 0f);
-
-                                Vector3[] _leftpositions = BezierCurvePositions(startPoint.position + startPointOffset, leftendPoint.position + leftendPointOffset, controlPoint);
-                                leftLineRenderer.SetPositions(_leftpositions);
-
-                            }
-                        }
-                        break;
-                    case TouchPhase.Ended:
-                        if (inHouseRange)
-                        {
-                            rightLineRenderer.enabled = false;
-                            leftLineRenderer.enabled = false;
-                            if (touchDistance.x > 100f)
-                            {
-                                delivaryPizzaPos = rightDelivaryPos;
-                                DeliverPizzas(4);
-                            }
-                            else if (touchDistance.x < -100f)
-                            {
-                                delivaryPizzaPos = leftDelivaryPos;
-                                DeliverPizzas(5);
-                            }
-                        }
-                        break;
-                    case TouchPhase.Canceled:
-                        currentHoldDuration = 0.0f;
-                        if (inHouseRange)
-                        {
-                            rightLineRenderer.enabled = false;
-                            leftLineRenderer.enabled = false;
-                        }
-                        break;
-                }
-            }*/
-            #endregion
-        
-
-            #endregion
-
+        }
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
+        {
+            stopTouch = false;
+            xScrennPos = 0f;
+            move = false;
+            animator.SetBool("move", move);
         }
 
 
-        //rb.position = Vector3.Lerp(rb.position, new Vector3(xPos, rb.position.y, rb.position.z), Time.deltaTime * sideMoveSpeed);
+
+        #region Archieve
+        /*
+                if (Input.touchCount > 0)
+                {
+                    Touch touch = Input.GetTouch(0);
+
+                    switch (touch.phase)
+                    {
+                        case TouchPhase.Began:
+                            currentHoldDuration = 0.0f;
+                            break;
+                        case TouchPhase.Stationary:
+                        case TouchPhase.Moved:
+                            if (inHouseRange)
+                            {
+                                currentHoldDuration += Time.deltaTime;
+                                if (currentHoldDuration >= requiredHoldDuration)
+                                {
+
+                                    //right Line Renderer
+                                    rightLineRenderer.enabled = true;
+                                    controlPoint = Vector3.Lerp(startPoint.position, rightendPoint.position, .5f) + new Vector3(-3f, 3f, 0f);
+
+                                    Vector3[] _rightpositions = BezierCurvePositions(startPoint.position + startPointOffset, rightendPoint.position + rightendPointOffset, controlPoint);
+                                    rightLineRenderer.SetPositions(_rightpositions);
+
+
+                                    //left Line Renderer
+                                    leftLineRenderer.enabled = true;
+                                    controlPoint = Vector3.Lerp(startPoint.position, leftendPoint.position, .5f) + new Vector3(3f, 3f, 0f);
+
+                                    Vector3[] _leftpositions = BezierCurvePositions(startPoint.position + startPointOffset, leftendPoint.position + leftendPointOffset, controlPoint);
+                                    leftLineRenderer.SetPositions(_leftpositions);
+
+                                }
+                            }
+                            break;
+                        case TouchPhase.Ended:
+                            if (inHouseRange)
+                            {
+                                rightLineRenderer.enabled = false;
+                                leftLineRenderer.enabled = false;
+                                if (touchDistance.x > 100f)
+                                {
+                                    delivaryPizzaPos = rightDelivaryPos;
+                                    DeliverPizzas(4);
+                                }
+                                else if (touchDistance.x < -100f)
+                                {
+                                    delivaryPizzaPos = leftDelivaryPos;
+                                    DeliverPizzas(5);
+                                }
+                            }
+                            break;
+                        case TouchPhase.Canceled:
+                            currentHoldDuration = 0.0f;
+                            if (inHouseRange)
+                            {
+                                rightLineRenderer.enabled = false;
+                                leftLineRenderer.enabled = false;
+                            }
+                            break;
+                    }
+                }*/
+        #endregion
+
+
+        #endregion
+
         rb.position += new Vector3(xScrennPos * sensitivity * Time.deltaTime, 0f, 0f);
         transform.position = new Vector3(Mathf.Clamp(transform.position.x, -3.4f, 3.4f), transform.position.y, transform.position.z);
         

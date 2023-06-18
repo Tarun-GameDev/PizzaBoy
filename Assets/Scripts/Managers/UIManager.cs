@@ -51,6 +51,11 @@ public class UIManager : MonoBehaviour
 
     public void LevelComplete()
     {
+        Invoke("levelCompleteDelay",1f);
+    }
+
+    void levelCompleteDelay()
+    {
         levelCompleteMenu.SetActive(true);
         playingMenu.SetActive(false);
     }

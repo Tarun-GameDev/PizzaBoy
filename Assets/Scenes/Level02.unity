@@ -1975,7 +1975,7 @@ PrefabInstance:
     - target: {fileID: 7952356545305343643, guid: f68a20ffd830871429b5ceb3f04b3975,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8425381737930416634, guid: f68a20ffd830871429b5ceb3f04b3975,
         type: 3}
@@ -2168,7 +2168,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 1
+    m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1

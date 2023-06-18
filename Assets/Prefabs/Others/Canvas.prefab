@@ -1110,7 +1110,7 @@ MonoBehaviour:
   playingMenu: {fileID: 7631927359423904041}
   levelCompleteMenu: {fileID: 7631927358382917658}
   pauseMenu: {fileID: 5788324737034469661}
-  levelNoText: {fileID: 7631927359226512289}
+  levelNoText: {fileID: 1280042295487200570}
   gemsText: {fileID: 7631927358913022288}
   gemsCollected: 0
 --- !u!1 &7631927358198545363
