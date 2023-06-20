@@ -721,6 +721,7 @@ GameObject:
   - component: {fileID: 7952356546469747882}
   - component: {fileID: 7952356546469747883}
   - component: {fileID: 7952356546469747884}
+  - component: {fileID: 1595526834217922708}
   m_Layer: 0
   m_Name: PizzaBoxes
   m_TagString: PizzasPosTrigger
@@ -768,7 +769,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5374ae39f2a67ef43b8c99d592431503, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  noOfBoxes: 0
+  collectedBoxes: 0
   boy: 1
   characterRig: {fileID: 7952356545295280422}
   collected: 0
@@ -776,6 +777,103 @@ MonoBehaviour:
   angrySprite: {fileID: 735330887, guid: c4752e62b151e7c4cbd255230b567fa2, type: 3}
   happySprite: {fileID: -574732330, guid: c4752e62b151e7c4cbd255230b567fa2, type: 3}
   emojiesAnimator: {fileID: 4418416478329434209}
+  happyAudio: {fileID: 1595526834217922708}
+--- !u!82 &1595526834217922708
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7952356546469747885}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 52b86cdd93d9e60478d84807f9dd3ac3, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &7952356546716927488
 GameObject:
   m_ObjectHideFlags: 0

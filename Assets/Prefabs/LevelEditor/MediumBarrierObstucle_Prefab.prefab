@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4554720648368028853}
   - component: {fileID: 196344127855624442}
+  - component: {fileID: 1319742333982128318}
   m_Layer: 8
   m_Name: MediumBarrierObstucle_Prefab
   m_TagString: ObstucleBarrier
@@ -41,11 +42,27 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4554720648368028852}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.44, y: 0.9, z: 0.2}
-  m_Center: {x: 0, y: 0.5, z: 0.3}
+  m_Size: {x: 0.44, y: 0.96405566, z: 0.55}
+  m_Center: {x: 0, y: 0.46797222, z: 0.08000001}
+--- !u!54 &1319742333982128318
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4554720648368028852}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &4474641738030755930
 PrefabInstance:
   m_ObjectHideFlags: 0

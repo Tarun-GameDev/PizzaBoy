@@ -1,0 +1,103 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &907895203625598279
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 907895203625598277}
+  - component: {fileID: 907895203625598278}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &907895203625598277
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 907895203625598279}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &907895203625598278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 907895203625598279}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03ecbc74295ff084495f8dbce3682513, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: Click
+    clip: {fileID: 8300000, guid: 260ab99a02457094a9fe8483e63f581d, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    SpatialBlend: 0
+    source: {fileID: 0}
+  - name: BoxesAdded
+    clip: {fileID: 8300000, guid: 0241cd6b9ec8e11469e2b701635519f3, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    SpatialBlend: 0
+    source: {fileID: 0}
+  - name: BoxesSubtract
+    clip: {fileID: 8300000, guid: eb8b0fcc3b684d449a90f27339dd53de, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    SpatialBlend: 0
+    source: {fileID: 0}
+  - name: PizzaCollect
+    clip: {fileID: 8300000, guid: d4659e5c46e2bf44ebe389b64cb7ec44, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    SpatialBlend: 0
+    source: {fileID: 0}
+  - name: GemCollect
+    clip: {fileID: 8300000, guid: d9f06f2dd061efe468b23946f12d1249, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    SpatialBlend: 0
+    source: {fileID: 0}
+  - name: MoreCashCollected
+    clip: {fileID: 8300000, guid: be376ebe685631744b2ac0436f92892f, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    SpatialBlend: 0
+    source: {fileID: 0}
+  - name: LevelCompleted
+    clip: {fileID: 8300000, guid: 2a5de6fb695ec7941930c1f6157a9282, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    SpatialBlend: 0
+    source: {fileID: 0}
+  - name: Hit
+    clip: {fileID: 8300000, guid: f9f01a4c00ce2df4da258a5d6eaefbaa, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    SpatialBlend: 0
+    source: {fileID: 0}

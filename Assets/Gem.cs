@@ -15,6 +15,7 @@ public class Gem : MonoBehaviour
 
             LevelManager.instance.uiManager.AddCoin(1);
 
+            AudioManager.instance.Play("GemCollect");
 
             Destroy(gameObject);
         }

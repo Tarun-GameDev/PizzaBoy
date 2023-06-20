@@ -24,7 +24,6 @@ public class PizzaBox : MonoBehaviour
         rb.AddForce(transform.up * startUpForce * Time.deltaTime, ForceMode.VelocityChange);
         rb.isKinematic = true;
         canMove = true;
-
     }
 
     private void Update()

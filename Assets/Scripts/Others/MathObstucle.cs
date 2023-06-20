@@ -31,7 +31,7 @@ public class MathObstucle : MonoBehaviour
                 break;
             case "/":
                 {
-                    mathName = "%";
+                    mathName = "÷";
                 }
                 break;
         }
@@ -55,22 +55,26 @@ public class MathObstucle : MonoBehaviour
             case "+":
                 {
                     LevelManager.instance.player.AddBox(amount);
+                    AudioManager.instance.Play("BoxesAdded");
                 }
                 break;
             case "-":
                 {
                     LevelManager.instance.player.RemoveBox(amount);
+                    AudioManager.instance.Play("BoxesSubtract");
                 }
                 break;
             case "*":
                 {
                     LevelManager.instance.player.AddBox(LevelManager.instance.currentPizzasCollected * amount);
+                    AudioManager.instance.Play("BoxesAdded");
                 }
                 break;
             case "/":
                 {
                     int val = LevelManager.instance.currentPizzasCollected / amount;
                     LevelManager.instance.player.RemoveBox(LevelManager.instance.currentPizzasCollected - val);
+                    AudioManager.instance.Play("BoxesSubtract");
                 }
                 break;
         }

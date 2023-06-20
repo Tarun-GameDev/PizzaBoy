@@ -14,8 +14,8 @@ public class LevelComplete : MonoBehaviour
             LevelManager.instance.player.LevelCompleted();
             if (particleEffect != null)
                 particleEffect.Play();
-            
-            
+
+            AudioManager.instance.Play("LevelCompleted");
         }
     }
 }

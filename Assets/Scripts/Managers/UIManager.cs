@@ -13,12 +13,14 @@ public class UIManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI gemsText;
     [SerializeField] int gemsCollected;
     public static bool GameIsPaused = false;
+    AudioManager audioManager;
 
     private void Start()
     {
         gemsCollected = PlayerPrefs.GetInt("Gems", 0);
         gemsText.text = "Coins " + gemsCollected.ToString("00");
         levelNoText.text = "Level " + SceneManager.GetActiveScene().buildIndex.ToString();
+        audioManager = AudioManager.instance;
     }
 
     public void Resume()
@@ -27,7 +29,7 @@ public class UIManager : MonoBehaviour
         pauseMenu.SetActive(false);
         Time.timeScale = 1f;
         GameIsPaused = false;
-        //audioManager.Play("Button");
+        audioManager.Play("Click");
     }
 
     public void Pause()
@@ -36,7 +38,7 @@ public class UIManager : MonoBehaviour
         pauseMenu.SetActive(true);
         Time.timeScale = 0f;
         GameIsPaused = true;
-        //audioManager.Play("Button");
+        audioManager.Play("Click");
     }
 
     public void DeadMenu()
@@ -46,6 +48,7 @@ public class UIManager : MonoBehaviour
 
     public void RestartButton()
     {
+        audioManager.Play("Click");
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
@@ -62,6 +65,7 @@ public class UIManager : MonoBehaviour
 
     public void NextLevel()
     {
+        audioManager.Play("Click");
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 

@@ -54,6 +54,10 @@ public class PlayerController : MonoBehaviour
     bool bonusPointsCompleted = false;
     public bool pizzasDelivered = false;
     bool move = false;
+    AudioManager audioManager;
+
+    [SerializeField] ParticleSystem upgradeParticleEff;
+    [SerializeField] ParticleSystem degradeParticleEff;
 
     void Start()
     {
@@ -66,7 +70,9 @@ public class PlayerController : MonoBehaviour
         leftLineRenderer.enabled = false;
 
         if(characterRig != null)
-            characterRig.weight = 0f;        
+            characterRig.weight = 0f;
+
+        audioManager = AudioManager.instance;
 
     }
 
@@ -214,32 +220,27 @@ public class PlayerController : MonoBehaviour
 
         if(col.CompareTag("PizzaBox"))
         {
+            audioManager.Play("PizzaCollect");
             if (characterRig != null)
                 characterRig.weight = 1f;
-            SetBoxPos(col.gameObject);  
+            SetBoxPos(col.gameObject);
+
         }
 
 
         if (col.CompareTag("HouseRange"))
         {
             delivaryPizzaPos = col.GetComponent<PizzaDelivary>().delivaryPos;
-            DeliverPizzas(col.GetComponent<PizzaDelivary>().noOfPizzas);
-            pizzasDelivered = true;
-            /*
-            startPoint = this.transform;
-            rightendPoint = rightDelivaryPos.transform;
-            leftendPoint = leftDelivaryPos.transform;
-            */
+            if(pizzasCollected >= 1)
+            {
+                DeliverPizzas(col.GetComponent<PizzaDelivary>().noOfPizzas);
+                pizzasDelivered = true;
+                LevelManager.instance.uiManager.AddCoin(5);
+                audioManager.Play("MoreCashCollected");
+            }
             inHouseRange = true;
         }
 
-        if(col.CompareTag("ObstucleBarrier"))
-        {
-            CinemachineShake.instance.CameraShake(10f, .2f);
-            rb.AddForce(Vector3.right * 500f,ForceMode.Impulse);
-            EnbaleBoxPhysics(pizzasCollected - 1);
-
-        }
 
 
     }
@@ -257,44 +258,76 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        GameObject col = collision.gameObject;
+
+        if (col.CompareTag("ObstucleBarrier"))
+        {
+            audioManager.Play("Hit");
+            CinemachineShake.instance.CameraShake(10f, .2f);
+            //rb.AddForce(Vector3.right * 500f, ForceMode.Impulse);
+            EnbaleBoxPhysics(pizzasCollected - 1);
+            int _rand = Random.Range(0, 2);
+            if(_rand == 0)
+                col.GetComponent<Rigidbody>().AddForce(Vector3.right * Random.Range(8f,10f), ForceMode.Impulse);
+            else
+                col.GetComponent<Rigidbody>().AddForce(Vector3.left * Random.Range(8f, 10f), ForceMode.Impulse);
+            col.GetComponent<Rigidbody>().AddForce(Vector3.up * 20f, ForceMode.Impulse);
+
+            Destroy(col, 5f);
+        }
+    }
+
 
 
 
     public void AddBox(int _noOfBoxes)
     {
-        if(pizzasCollected == 0)
-        {
-            if (characterRig != null)
-                characterRig.weight = 1f;
-        }
-
-
+       
         for (int i = 0; i < _noOfBoxes; i++)
         {
             var _obj = Instantiate(pizzaBoxPrefab);
             SetBoxPos(_obj);
         }
+
+        if (pizzasCollected >= 1)
+        {
+            if (characterRig != null)
+                characterRig.weight = 1f;
+
+            if (upgradeParticleEff != null)
+                upgradeParticleEff.Play();
+        }
     }
 
     public void RemoveBox(int _noOfBoxes)
     {
-        for (int i = 0; i < _noOfBoxes; i++)
+        if (pizzasCollected >= 1)
         {
-            if(pizzasCollected >= 1)
+            for (int i = 0; i < _noOfBoxes; i++)
             {
-                Destroy(pizzaBoxeArray[pizzasCollected-1]);
-                pizzaBoxeArray.RemoveAt(pizzasCollected - 1);
-                pizzasCollected--;
+                if (pizzasCollected >= 1)
+                {
+                    Destroy(pizzaBoxeArray[pizzasCollected - 1]);
+                    pizzaBoxeArray.RemoveAt(pizzasCollected - 1);
+                    pizzasCollected--;
+                }
             }
+
+            if (pizzasCollected == 0)
+            {
+                if (characterRig != null)
+                    characterRig.weight = 0f;
+            }
+
+            LevelManager.instance.currentPizzasCollected = pizzasCollected;
+
+
+            if (degradeParticleEff != null)
+                degradeParticleEff.Play();
         }
 
-        if(pizzasCollected == 0)
-        {
-            if (characterRig != null)
-                characterRig.weight = 0f;
-        }
-        
-        LevelManager.instance.currentPizzasCollected = pizzasCollected;
     }
 
     void SetBoxPos(GameObject _box)

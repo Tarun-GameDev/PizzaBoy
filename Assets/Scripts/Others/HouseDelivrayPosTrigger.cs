@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class HouseDelivrayPosTrigger : MonoBehaviour
 {
-    [SerializeField] int noOfBoxes = 0;
+    [SerializeField] int collectedBoxes = 0;
     [SerializeField] bool boy = false;
     [SerializeField] Rig characterRig;
     [SerializeField] bool collected = false;
@@ -16,15 +16,16 @@ public class HouseDelivrayPosTrigger : MonoBehaviour
     [SerializeField] Sprite happySprite;
     [SerializeField] Animator emojiesAnimator;
     bool triggered = false;
+    [SerializeField] AudioSource happyAudio;
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("CollectedBox"))
         {
             other.GetComponent<PizzaBox>().delivered = true;
-            other.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + (noOfBoxes * .15f), this.transform.position.z);
+            other.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + (collectedBoxes * .15f), this.transform.position.z);
             other.tag = "Untagged";
-            noOfBoxes++;
+            collectedBoxes++;
 
             if (boy && !collected)
             {
@@ -35,6 +36,9 @@ public class HouseDelivrayPosTrigger : MonoBehaviour
 
             if(!triggered)
             {
+                if (happyAudio != null)
+                    happyAudio.Play();
+
                 if (emojiesImage != null)
                     emojiesImage.sprite = happySprite;
 
