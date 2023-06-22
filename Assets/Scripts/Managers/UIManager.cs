@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] GameObject playingMenu;
     [SerializeField] GameObject levelCompleteMenu;
+    [SerializeField] GameObject levelFailed;
     [SerializeField] GameObject pauseMenu;
     [SerializeField] TextMeshProUGUI levelNoText;
     [SerializeField] TextMeshProUGUI gemsText;
@@ -18,7 +19,7 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         gemsCollected = PlayerPrefs.GetInt("Gems", 0);
-        gemsText.text = "Coins " + gemsCollected.ToString("00");
+        gemsText.text = "Gems: " + gemsCollected.ToString("00");
         levelNoText.text = "Level " + SceneManager.GetActiveScene().buildIndex.ToString();
         audioManager = AudioManager.instance;
     }
@@ -63,6 +64,12 @@ public class UIManager : MonoBehaviour
         playingMenu.SetActive(false);
     }
 
+    public void LevelFailed()
+    {
+        levelFailed.SetActive(true);
+        playingMenu.SetActive(false);
+    }
+
     public void NextLevel()
     {
         audioManager.Play("Click");
@@ -72,7 +79,7 @@ public class UIManager : MonoBehaviour
     public void AddCoin(int _coins)
     {
         gemsCollected += _coins;
-        gemsText.text = "Gems " + gemsCollected.ToString("00");
+        gemsText.text = "Gems:" + gemsCollected.ToString("00");
         PlayerPrefs.SetInt("Gems", gemsCollected);
     }
      

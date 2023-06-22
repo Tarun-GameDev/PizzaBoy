@@ -9,6 +9,7 @@ TagManager:
   - HouseRange
   - PizzasPosTrigger
   - ObstucleBarrier
+  - NonTriggable
   layers:
   - Default
   - TransparentFX
@@ -19,7 +20,7 @@ TagManager:
   - PizzaBox
   - HouseRange
   - ObstucleBarrier
-  - 
+  - NonTriggable
   - 
   - 
   - 

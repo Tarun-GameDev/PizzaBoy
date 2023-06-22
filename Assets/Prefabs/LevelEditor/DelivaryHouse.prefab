@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 012eaaae2b4f45549829eec218a298ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  noOfPizzas: 4
+  noOfPizzas: 2
   delivaryPos: {fileID: 4026965101866725864}
 --- !u!65 &589711041817158916
 BoxCollider:
@@ -224,7 +224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5374ae39f2a67ef43b8c99d592431503, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  noOfBoxes: 0
+  collectedBoxes: 0
   boy: 0
   characterRig: {fileID: 0}
   collected: 0
@@ -232,6 +232,7 @@ MonoBehaviour:
   angrySprite: {fileID: 0}
   happySprite: {fileID: 0}
   emojiesAnimator: {fileID: 0}
+  happyAudio: {fileID: 0}
 --- !u!1001 &7557470830474005587
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     Collider col;
     [SerializeField] float movement;
     [SerializeField] Transform pizzaBoxPivot;
-    [SerializeField] int pizzasCollected = 0;
+    [SerializeField] int pizzasCollected = 1;
     [SerializeField] Rig characterRig;
     [SerializeField] Animator animator;
     [SerializeField] float xPos = -2f;
@@ -34,11 +34,10 @@ public class PlayerController : MonoBehaviour
     Vector2 touchDistance;
 
     public float xScrennPos;
-    GameObject leftDelivaryPos;
-    GameObject rightDelivaryPos;
     GameObject delivaryPizzaPos;
 
 
+    /*
     [SerializeField] LineRenderer rightLineRenderer;
     [SerializeField] LineRenderer leftLineRenderer;
     Transform startPoint;
@@ -47,10 +46,11 @@ public class PlayerController : MonoBehaviour
     Vector3 rightendPointOffset = new Vector3(.8f,0f,.2f);
     Transform leftendPoint;
     Vector3 leftendPointOffset;
-    Vector3 controlPoint;
+    Vector3 controlPoint;*/
     int bezierCurveResolution = 10;
 
     public bool levelCompleted = false;
+    public bool levelFailed = false;
     bool bonusPointsCompleted = false;
     public bool pizzasDelivered = false;
     bool move = false;
@@ -64,23 +64,20 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         col = GetComponent<Collider>();
 
-        rightLineRenderer.positionCount = bezierCurveResolution;
-        leftLineRenderer.positionCount = bezierCurveResolution;
-        rightLineRenderer.enabled = false;
-        leftLineRenderer.enabled = false;
 
         if(characterRig != null)
-            characterRig.weight = 0f;
+            characterRig.weight = 1f;
 
         audioManager = AudioManager.instance;
 
+        pizzasCollected = 1;
+        LevelManager.instance.currentPizzasCollected = pizzasCollected;
     }
 
     private void Update()
     {
-        if (bonusPointsCompleted)
+        if (bonusPointsCompleted || levelFailed)
             return;
-
 
 
         #region MObileCOmtrollers
@@ -105,8 +102,6 @@ public class PlayerController : MonoBehaviour
             move = false;
             animator.SetBool("move", move);
         }
-
-
 
         #region Archieve
         /*
@@ -206,7 +201,7 @@ public class PlayerController : MonoBehaviour
     }
     void FixedUpdate()
     {
-        if (bonusPointsCompleted)
+        if (bonusPointsCompleted || levelFailed) 
             return;
 
 
@@ -227,35 +222,6 @@ public class PlayerController : MonoBehaviour
 
         }
 
-
-        if (col.CompareTag("HouseRange"))
-        {
-            delivaryPizzaPos = col.GetComponent<PizzaDelivary>().delivaryPos;
-            if(pizzasCollected >= 1)
-            {
-                DeliverPizzas(col.GetComponent<PizzaDelivary>().noOfPizzas);
-                pizzasDelivered = true;
-                LevelManager.instance.uiManager.AddCoin(5);
-                audioManager.Play("MoreCashCollected");
-            }
-            inHouseRange = true;
-        }
-
-
-
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("HouseRange"))
-        {
-            inHouseRange = false;
-            DelivaryHouseObj = null;
-            pizzasDelivered = false;
-            /*
-            rightLineRenderer.enabled = false;
-            leftLineRenderer.enabled = false;*/
-        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -266,7 +232,6 @@ public class PlayerController : MonoBehaviour
         {
             audioManager.Play("Hit");
             CinemachineShake.instance.CameraShake(10f, .2f);
-            //rb.AddForce(Vector3.right * 500f, ForceMode.Impulse);
             EnbaleBoxPhysics(pizzasCollected - 1);
             int _rand = Random.Range(0, 2);
             if(_rand == 0)
@@ -315,16 +280,12 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
-            if (pizzasCollected == 0)
-            {
-                if (characterRig != null)
-                    characterRig.weight = 0f;
-            }
+            CheckForOutOfPizzas();
 
             LevelManager.instance.currentPizzasCollected = pizzasCollected;
 
 
-            if (degradeParticleEff != null)
+            if (!levelCompleted && degradeParticleEff != null)
                 degradeParticleEff.Play();
         }
 
@@ -352,7 +313,8 @@ public class PlayerController : MonoBehaviour
         for (int i = pizzasCollected-1; i >= _indexFrom; i--)
         {
             GameObject _box = pizzaBoxeArray[i];
-            
+
+            _box.transform.parent = null;
             _box.GetComponent<Collider>().isTrigger = false;
             _box.GetComponent<Rigidbody>().isKinematic = false;
             Destroy(_box, 3f);
@@ -362,42 +324,49 @@ public class PlayerController : MonoBehaviour
 
         LevelManager.instance.currentPizzasCollected = pizzasCollected;
 
-        if (pizzasCollected == 0)
+        CheckForOutOfPizzas();
+    }
+
+
+    public void PizzaDelivary(GameObject _delivaryPos, int _noOfPizzas)
+    {
+        if (pizzasCollected >= 1)
         {
-            if (characterRig != null)
-                characterRig.weight = 0f;
+            for (int i = 1; i <= _noOfPizzas; i++)
+            {
+                if (pizzasCollected >= 1)
+                {
+                    GameObject _box = pizzaBoxeArray[pizzaBoxeArray.Count - 1];
+                    pizzaBoxeArray.RemoveAt(pizzaBoxeArray.Count - 1);
+                    _box.transform.parent = null;
+                    _box.GetComponent<PizzaBox>().moveTowardsPos(_delivaryPos);
+                    pizzasCollected--;
+                    LevelManager.instance.uiManager.AddCoin(2);
+                }
+
+            }
+
+            audioManager.Play("MoreCashCollected");
+            LevelManager.instance.currentPizzasCollected = pizzasCollected;
+
+            CheckForOutOfPizzas();
         }
     }
 
-    public void DeliverPizzas(int _amount)
+    void CheckForOutOfPizzas()
     {
-        
-        int _pizzas = pizzasCollected - _amount;
-
-        for (int i = pizzasCollected - 1; i >= _pizzas; i--)
-        {
-            if (pizzasCollected >= 1)
-            {
-                GameObject _box = pizzaBoxeArray[i];
-                _box.transform.parent = null;
-                _box.GetComponent<PizzaBox>().moveTowardsPos(delivaryPizzaPos);
-                pizzaBoxeArray.RemoveAt(i);
-                pizzasCollected--;
-            }
-            else
-            {
-                Debug.Log("Out of Pizzas");
-            }
-
-        }
-
-        if (pizzasCollected == 0)
+        if( pizzasCollected == 0)
         {
             if (characterRig != null)
                 characterRig.weight = 0f;
-        }
 
-        LevelManager.instance.currentPizzasCollected = pizzasCollected;
+            if (!levelCompleted)
+            {
+                animator.SetTrigger("levelFailed");
+                levelFailed = true;
+                LevelManager.instance.uiManager.LevelFailed();
+            }
+        }
 
     }
 
@@ -407,6 +376,7 @@ public class PlayerController : MonoBehaviour
         if(pizzasCollected == 0)
         {
             BonusPointCompleted();
+            
         }
     }
 
@@ -418,8 +388,5 @@ public class PlayerController : MonoBehaviour
         animator.SetTrigger("levelCompleted0" + _rand);
 
         LevelManager.instance.uiManager.LevelComplete();
-
-        //play animation
-        //stop move
     }
 }

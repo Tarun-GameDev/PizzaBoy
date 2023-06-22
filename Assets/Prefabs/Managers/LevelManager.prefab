@@ -46,4 +46,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiManager: {fileID: 0}
   player: {fileID: 0}
-  currentPizzasCollected: 0
+  currentPizzasCollected: 1
