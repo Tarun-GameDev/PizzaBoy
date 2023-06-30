@@ -85,6 +85,7 @@ public class PlayerController : MonoBehaviour
 
         #region PcControllers
         
+        /*
         if (Input.GetAxisRaw("Horizontal") >= .1 || Input.GetAxisRaw("Horizontal") <= -.1f)
         {
             xScrennPos += Input.GetAxisRaw("Horizontal") * 2f;
@@ -104,7 +105,7 @@ public class PlayerController : MonoBehaviour
             move = false;
             animator.SetBool("move", move);
         }
-
+        */
         #endregion
 
         #region MObileCOmtrollers
