@@ -9,9 +9,12 @@ public class MathObstucle : MonoBehaviour
     [SerializeField] string mathSymbol = "+";
     [SerializeField] int amount = 0;
     string mathName;
-
+    [SerializeField] MathObstucle otherObstucle;
+    public bool triggered = false;
     private void Start()
     {
+        triggered = false;
+
         switch (mathSymbol)
         {
             case "+":
@@ -34,6 +37,9 @@ public class MathObstucle : MonoBehaviour
                     mathName = "÷";
                 }
                 break;
+            default:
+                mathName = "+";
+                break;
         }
 
         mathText.text = mathName + amount.ToString();
@@ -41,10 +47,16 @@ public class MathObstucle : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (triggered)
+            return;
+
         if (other.CompareTag("Player"))
         {
             MathsPizza();
             CinemachineShake.instance.CameraShake(3f, .4f);
+            triggered = true;
+            if(otherObstucle != null)
+                otherObstucle.triggered = true;
         }
     }
 
@@ -66,7 +78,7 @@ public class MathObstucle : MonoBehaviour
                 break;
             case "*":
                 {
-                    LevelManager.instance.player.AddBox(LevelManager.instance.currentPizzasCollected * amount);
+                    LevelManager.instance.player.AddBox(LevelManager.instance.currentPizzasCollected * (amount-1));
                     AudioManager.instance.Play("BoxesAdded");
                 }
                 break;
@@ -76,6 +88,10 @@ public class MathObstucle : MonoBehaviour
                     LevelManager.instance.player.RemoveBox(LevelManager.instance.currentPizzasCollected - val);
                     AudioManager.instance.Play("BoxesSubtract");
                 }
+                break;
+            default:
+                LevelManager.instance.player.AddBox(amount);
+                AudioManager.instance.Play("BoxesAdded");
                 break;
         }
     }

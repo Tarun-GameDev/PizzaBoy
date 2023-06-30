@@ -23,7 +23,7 @@ Material:
   m_Name: Gem
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
   m_ValidKeywords:
-  - _SPECULAR_SETUP
+  - _RECEIVE_SHADOWS_OFF
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -107,21 +107,21 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _Metallic: 0.54
+    - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueOffset: 0
-    - _ReceiveShadows: 1
+    - _ReceiveShadows: 0
     - _Smoothness: 1
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
-    - _WorkflowMode: 0
+    - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 1, g: 0, b: 0.8495259, a: 1}
-    - _Color: {r: 1, g: 0, b: 0.8495259, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _BaseColor: {r: 1, g: 0, b: 0.85098076, a: 1}
+    - _Color: {r: 1, g: 0, b: 0.85098076, a: 1}
+    - _EmissionColor: {r: 1, g: 0.75, b: 0.97534156, a: 1}
     - _SpecColor: {r: 0.2794144, g: 0.64365864, b: 0.6509434, a: 1}
   m_BuildTextureStacks: []

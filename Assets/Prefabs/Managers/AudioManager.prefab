@@ -101,3 +101,10 @@ MonoBehaviour:
     loop: 0
     SpatialBlend: 0
     source: {fileID: 0}
+  - name: PowerUp
+    clip: {fileID: 8300000, guid: a1616e6519a0e3b47a568a45f387bfe4, type: 3}
+    volume: 0.7
+    pitch: 1
+    loop: 0
+    SpatialBlend: 0
+    source: {fileID: 0}

@@ -92,7 +92,7 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _InvFade: 1
+    - _InvFade: 2.24
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005

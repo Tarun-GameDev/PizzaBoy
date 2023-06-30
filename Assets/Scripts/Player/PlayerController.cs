@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] int pizzasCollected = 1;
     [SerializeField] Rig characterRig;
     [SerializeField] Animator animator;
+    [SerializeField] float animatorSpeedMultiplier = 1f;
     [SerializeField] float xPos = -2f;
     [SerializeField] float sideMoveSpeed = 1f;
     bool right = false;
@@ -58,7 +59,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] ParticleSystem upgradeParticleEff;
     [SerializeField] ParticleSystem degradeParticleEff;
-
+    [SerializeField] ParticleSystem powerUpPartcleEff;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -70,6 +71,8 @@ public class PlayerController : MonoBehaviour
 
         audioManager = AudioManager.instance;
 
+        animator.SetFloat("speed", animatorSpeedMultiplier);
+
         pizzasCollected = 1;
         LevelManager.instance.currentPizzasCollected = pizzasCollected;
     }
@@ -79,6 +82,30 @@ public class PlayerController : MonoBehaviour
         if (bonusPointsCompleted || levelFailed)
             return;
 
+
+        #region PcControllers
+        
+        if (Input.GetAxisRaw("Horizontal") >= .1 || Input.GetAxisRaw("Horizontal") <= -.1f)
+        {
+            xScrennPos += Input.GetAxisRaw("Horizontal") * 2f;
+        }
+        else
+        {
+            xScrennPos = 0f;
+        }
+
+        if(Input.GetAxisRaw("Vertical") >= .1)
+        {
+            move = true;
+            animator.SetBool("move", move);
+        }
+        else
+        {
+            move = false;
+            animator.SetBool("move", move);
+        }
+
+        #endregion
 
         #region MObileCOmtrollers
 
@@ -317,7 +344,7 @@ public class PlayerController : MonoBehaviour
             _box.transform.parent = null;
             _box.GetComponent<Collider>().isTrigger = false;
             _box.GetComponent<Rigidbody>().isKinematic = false;
-            Destroy(_box, 3f);
+            //Destroy(_box, 3f);
             pizzaBoxeArray.RemoveAt(i);
             pizzasCollected--;
         }
@@ -357,17 +384,30 @@ public class PlayerController : MonoBehaviour
     {
         if( pizzasCollected == 0)
         {
-            if (characterRig != null)
-                characterRig.weight = 0f;
-
-            if (!levelCompleted)
-            {
-                animator.SetTrigger("levelFailed");
-                levelFailed = true;
-                LevelManager.instance.uiManager.LevelFailed();
-            }
+            LevelFaild();
         }
 
+    }
+
+    public void LevelFaild()
+    {
+        if(pizzasCollected == 0)
+        {
+            if (characterRig != null)
+                characterRig.weight = 0f;
+        }
+
+        if (!levelCompleted)
+        {
+            animator.SetTrigger("levelFailed");
+            levelFailed = true;
+            LevelManager.instance.uiManager.LevelFailed();
+        }
+    }
+
+    public void RemoveAllPizzas()
+    {
+        EnbaleBoxPhysics(0);
     }
 
     public void LevelCompleted()
@@ -389,4 +429,15 @@ public class PlayerController : MonoBehaviour
 
         LevelManager.instance.uiManager.LevelComplete();
     }
+
+    #region powerUps
+    public void IncreaseSpeed(float _multiplier)
+    {
+        moveSpeed += _multiplier;
+        animatorSpeedMultiplier += .1f;
+        animator.SetFloat("speed", animatorSpeedMultiplier);
+        if (powerUpPartcleEff != null)
+            powerUpPartcleEff.Play();
+    }
+    #endregion
 }

@@ -24,5 +24,8 @@ public class LevelManager : MonoBehaviour
     {
         if (player == null)
             player = FindObjectOfType<PlayerController>();
+
+        if (uiManager == null)
+            uiManager = FindObjectOfType<UIManager>();
     }
 }

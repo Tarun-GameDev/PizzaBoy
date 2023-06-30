@@ -20,7 +20,19 @@ public class UIManager : MonoBehaviour
     {
         gemsCollected = PlayerPrefs.GetInt("Gems", 0);
         gemsText.text = "Gems: " + gemsCollected.ToString("00");
-        levelNoText.text = "Level " + SceneManager.GetActiveScene().buildIndex.ToString();
+        int _levelNo = SceneManager.GetActiveScene().buildIndex;
+
+        if(levelNoText != null)
+        {
+            if ((_levelNo % 5) == 0f)
+            {
+                levelNoText.text = "Bonus Level";
+            }
+            else
+                levelNoText.text = "Level " + _levelNo;
+        }
+
+
         audioManager = AudioManager.instance;
     }
 
