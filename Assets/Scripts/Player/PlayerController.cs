@@ -201,9 +201,7 @@ public class PlayerController : MonoBehaviour
         #endregion
 
         rb.position += new Vector3(xScrennPos * sensitivity * Time.deltaTime, 0f, 0f);
-        transform.position = new Vector3(Mathf.Clamp(transform.position.x, -3.4f, 3.4f), transform.position.y, transform.position.z);
-        
-       
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, -3.4f, 3.4f), transform.position.y, transform.position.z); 
     }
 
     Vector3[] BezierCurvePositions(Vector3 startPos,Vector3 endPos,Vector3 controlPoint)

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 19b75d7f7a6e3c24481e7525e79525a3
+guid: ca2b72c482869ee4eb8cc25fb3e7f6db
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -42,7 +42,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -72,7 +72,7 @@ TextureImporter:
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
-    crunchedCompression: 0
+    crunchedCompression: 1
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
@@ -127,21 +127,72 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: IconsPNG_1
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 520
+        width: 249
+        height: 467
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 49aa91eff1c7c5c47a0cd47f5d6a8d29
+      internalID: 1376945485
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IconsPNG_3
+      rect:
+        serializedVersion: 2
+        x: 313
+        y: 784
+        width: 204
+        height: 203
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 65f8f4c2bcbfe5d4794d7405691ad2d9
+      internalID: -871116712
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 305efcafb13058c4da5d479daa4442c4
     internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      IconsPNG_0: -1624923043
+      IconsPNG_1: 1376945485
+      IconsPNG_2: -245349860
+      IconsPNG_3: -871116712
+      IconsPNG_4: -974801779
+      IconsPNG_5: -1402611224
+      IconsPNG_6: -121289515
+      IconsPNG_7: -2046218499
+      IconsPNG_8: -2067531596
   spritePackingTag: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 1
+  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

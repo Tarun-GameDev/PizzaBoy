@@ -11,7 +11,7 @@ public class LevelComplete : MonoBehaviour
     {
         if(other.CompareTag("Player"))
         {
-            PlayerPrefs.SetInt("LevelsUnlocked", SceneManager.GetActiveScene().buildIndex+1);
+            PlayerPrefs.SetInt("LevelUnlocked", SceneManager.GetActiveScene().buildIndex + 1);
             LevelManager.instance.player.LevelCompleted();
             if (particleEffect != null)
                 particleEffect.Play();

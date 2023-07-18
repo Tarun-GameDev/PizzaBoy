@@ -19914,7 +19914,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65efe0f8ca3d13b4bafa01f4a23698a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 200
+  moveSpeed: 250
   movement: 0
   pizzaBoxPivot: {fileID: 990066855}
   pizzasCollected: 1

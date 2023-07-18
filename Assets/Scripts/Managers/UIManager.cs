@@ -20,7 +20,7 @@ public class UIManager : MonoBehaviour
     {
         gemsCollected = PlayerPrefs.GetInt("Gems", 0);
         gemsText.text = "Gems: " + gemsCollected.ToString("00");
-        int _levelNo = SceneManager.GetActiveScene().buildIndex;
+        int _levelNo = SceneManager.GetActiveScene().buildIndex-1;
 
         if(levelNoText != null)
         {
